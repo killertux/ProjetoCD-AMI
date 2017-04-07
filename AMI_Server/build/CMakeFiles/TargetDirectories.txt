@@ -1,0 +1,7 @@
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/build/CMakeFiles/install/strip.dir
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/build/CMakeFiles/install/local.dir
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/build/CMakeFiles/ami_server.dir
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/build/CMakeFiles/edit_cache.dir
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/build/CMakeFiles/rebuild_cache.dir
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/build/CMakeFiles/install.dir
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/build/CMakeFiles/list_install_components.dir
