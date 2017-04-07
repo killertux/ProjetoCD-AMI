@@ -10,5 +10,26 @@ Environment Profile=
 Extra Arguments=
 Install Directory=
 
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=Novo lançador Binário compilado
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=666 15
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+Dependency Action=Nothing
+EnvironmentGroup=
+Executable=file:///home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/build/ami_server
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=AMI_Server,ami_server
+Use External Terminal=true
+Working Directory=
+isExecutable=true
+
 [Project]
 VersionControlSupport=kdevgit

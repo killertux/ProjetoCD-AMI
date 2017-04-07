@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Server.cpp" "/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/build/CMakeFiles/ami_server.dir/Server.cpp.o"
   "/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/main.cpp" "/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/build/CMakeFiles/ami_server.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

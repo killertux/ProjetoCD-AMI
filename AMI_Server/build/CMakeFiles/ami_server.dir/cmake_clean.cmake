@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ami_server.dir/main.cpp.o"
+  "CMakeFiles/ami_server.dir/Server.cpp.o"
   "ami_server.pdb"
   "ami_server"
 )

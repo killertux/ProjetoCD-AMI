@@ -1,1 +1,1 @@
-/usr/bin/c++   -g   CMakeFiles/ami_server.dir/main.cpp.o  -o ami_server -rdynamic 
+/usr/bin/c++   -g   CMakeFiles/ami_server.dir/main.cpp.o CMakeFiles/ami_server.dir/Server.cpp.o  -o ami_server -rdynamic 

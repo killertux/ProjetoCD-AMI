@@ -3,5 +3,10 @@
   "directory": "/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/build",
   "command": "/usr/bin/c++     -g   -o CMakeFiles/ami_server.dir/main.cpp.o -c /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/main.cpp",
   "file": "/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/main.cpp"
+},
+{
+  "directory": "/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/build",
+  "command": "/usr/bin/c++     -g   -o CMakeFiles/ami_server.dir/Server.cpp.o -c /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Server.cpp",
+  "file": "/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Server.cpp"
 }
 ]

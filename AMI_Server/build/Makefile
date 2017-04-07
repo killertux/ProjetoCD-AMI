@@ -167,6 +167,33 @@ ami_server/fast:
 	$(MAKE) -f CMakeFiles/ami_server.dir/build.make CMakeFiles/ami_server.dir/build
 .PHONY : ami_server/fast
 
+Server.o: Server.cpp.o
+
+.PHONY : Server.o
+
+# target to build an object file
+Server.cpp.o:
+	$(MAKE) -f CMakeFiles/ami_server.dir/build.make CMakeFiles/ami_server.dir/Server.cpp.o
+.PHONY : Server.cpp.o
+
+Server.i: Server.cpp.i
+
+.PHONY : Server.i
+
+# target to preprocess a source file
+Server.cpp.i:
+	$(MAKE) -f CMakeFiles/ami_server.dir/build.make CMakeFiles/ami_server.dir/Server.cpp.i
+.PHONY : Server.cpp.i
+
+Server.s: Server.cpp.s
+
+.PHONY : Server.s
+
+# target to generate assembly for a file
+Server.cpp.s:
+	$(MAKE) -f CMakeFiles/ami_server.dir/build.make CMakeFiles/ami_server.dir/Server.cpp.s
+.PHONY : Server.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -207,6 +234,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... install"
 	@echo "... list_install_components"
+	@echo "... Server.o"
+	@echo "... Server.i"
+	@echo "... Server.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
