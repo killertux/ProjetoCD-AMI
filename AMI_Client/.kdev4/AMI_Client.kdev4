@@ -1,3 +1,6 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00\x14\x00A\x00M\x00I\x00_\x00C\x00l\x00i\x00e\x00n\x00t)
+
 [CMake]
 Build Directory Count=1
 Current Build Directory Index=0
@@ -9,6 +12,27 @@ CMake Binary=/usr/bin/cmake
 Environment Profile=
 Extra Arguments=
 Install Directory=
+
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=Novo lançador Binário compilado
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+Dependency Action=Nothing
+EnvironmentGroup=
+Executable=file:///home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/build/ami_client
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=AMI_Client,ami_client
+Use External Terminal=true
+Working Directory=
+isExecutable=true
 
 [Project]
 VersionControlSupport=kdevgit
