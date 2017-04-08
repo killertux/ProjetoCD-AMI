@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "Server.hpp"
 
 int main(int argc, char **argv) {
@@ -9,7 +10,7 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 	
-	server = new Server();
+	server = new Server(std::stoi(argv[1]),std::stoi(argv[2]));
 	server->main_loop();
 	
     return 0;
