@@ -1,0 +1,51 @@
+BELMP - Bruno Everton Lucas Message Protocol V 1.0
+
+Header:
+
+5 Bytes with the identifier 'BELMP'
+1 Byte with the desired function
+250 Bytes with the data
+
+Functions:
+
+0x0		--		Request a new connection
+Data:
+249 Bytes with the nickname
+1 Byte null
+
+0x1		--		Positive response to the connection
+Data:
+1 Byte with the ID
+1 Byte with the server max clients number
+248 Bytes null
+
+0x2		--		Negative response to the connection. Reason = "To many clients"
+Data:
+250 Bytes null
+
+0x3		--		Negative response to the connection. Reason = "Nickname already in use"
+Data:
+250 Bytes null
+
+0x4		--		Negative response to the connection. Reason = "Unknown"
+Data:
+250 Bytes null
+
+0x5		--		New client connected
+Data:
+1 Byte with the ID
+249 Bytes with the nickname
+
+0x6		--		New message
+Data:
+1 Byte with the sender ID
+1 Byte with the receiver ID. ID 0xFF reserved for broadcasting
+248 Bytes with the message
+
+0x7		--		Error sending message. Reason = "Invalid sender ID"
+Data
+250 Bytes null
+
+0x8		--		Error sending message. Reason = "Invalid receiver ID"
+Data
+250 Bytes null

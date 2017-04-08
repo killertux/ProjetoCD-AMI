@@ -45,9 +45,11 @@ CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qbuffer.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qbytearray.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qchar.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qconfig.h
+CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qcontiguouscache.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qcoreapplication.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qcoreevent.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qdatastream.h
+CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qdebug.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qeventloop.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qfeatures.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qfile.h
@@ -81,6 +83,8 @@ CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qstring.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qstringbuilder.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qstringlist.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qstringmatcher.h
+CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qtextcodec.h
+CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qtextstream.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qvariant.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtCore/qvector.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtGui/QAction
@@ -167,6 +171,9 @@ CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtGui/qwidget.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtGui/qwindowdefs.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtGui/qwindowdefs_win.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtGui/qwmatrix.h
+CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtNetwork/QTcpSocket
+CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtNetwork/qabstractsocket.h
+CMakeFiles/ami_client.dir/AMI_Client.cpp.o: /usr/include/qt4/QtNetwork/qtcpsocket.h
 CMakeFiles/ami_client.dir/AMI_Client.cpp.o: AMI_Client.moc
 
 CMakeFiles/ami_client.dir/main.cpp.o: ../AMI_Client.h
@@ -212,9 +219,11 @@ CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qbuffer.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qbytearray.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qchar.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qconfig.h
+CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qcontiguouscache.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qcoreapplication.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qcoreevent.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qdatastream.h
+CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qdebug.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qeventloop.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qfeatures.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qfile.h
@@ -248,6 +257,8 @@ CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qstring.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qstringbuilder.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qstringlist.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qstringmatcher.h
+CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qtextcodec.h
+CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qtextstream.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qvariant.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtCore/qvector.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtGui/QAction
@@ -334,4 +345,7 @@ CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtGui/qwidget.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtGui/qwindowdefs.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtGui/qwindowdefs_win.h
 CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtGui/qwmatrix.h
+CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtNetwork/QTcpSocket
+CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtNetwork/qabstractsocket.h
+CMakeFiles/ami_client.dir/main.cpp.o: /usr/include/qt4/QtNetwork/qtcpsocket.h
 

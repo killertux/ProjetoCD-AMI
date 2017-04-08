@@ -124,6 +124,7 @@ ami_client: CMakeFiles/ami_client.dir/main.cpp.o
 ami_client: CMakeFiles/ami_client.dir/build.make
 ami_client: /usr/lib64/libQtCore.so
 ami_client: /usr/lib64/libQtGui.so
+ami_client: /usr/lib64/libQtNetwork.so
 ami_client: CMakeFiles/ami_client.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ami_client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ami_client.dir/link.txt --verbose=$(VERBOSE)

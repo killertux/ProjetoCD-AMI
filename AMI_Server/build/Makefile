@@ -167,6 +167,60 @@ ami_server/fast:
 	$(MAKE) -f CMakeFiles/ami_server.dir/build.make CMakeFiles/ami_server.dir/build
 .PHONY : ami_server/fast
 
+BELMP.o: BELMP.cpp.o
+
+.PHONY : BELMP.o
+
+# target to build an object file
+BELMP.cpp.o:
+	$(MAKE) -f CMakeFiles/ami_server.dir/build.make CMakeFiles/ami_server.dir/BELMP.cpp.o
+.PHONY : BELMP.cpp.o
+
+BELMP.i: BELMP.cpp.i
+
+.PHONY : BELMP.i
+
+# target to preprocess a source file
+BELMP.cpp.i:
+	$(MAKE) -f CMakeFiles/ami_server.dir/build.make CMakeFiles/ami_server.dir/BELMP.cpp.i
+.PHONY : BELMP.cpp.i
+
+BELMP.s: BELMP.cpp.s
+
+.PHONY : BELMP.s
+
+# target to generate assembly for a file
+BELMP.cpp.s:
+	$(MAKE) -f CMakeFiles/ami_server.dir/build.make CMakeFiles/ami_server.dir/BELMP.cpp.s
+.PHONY : BELMP.cpp.s
+
+Client.o: Client.cpp.o
+
+.PHONY : Client.o
+
+# target to build an object file
+Client.cpp.o:
+	$(MAKE) -f CMakeFiles/ami_server.dir/build.make CMakeFiles/ami_server.dir/Client.cpp.o
+.PHONY : Client.cpp.o
+
+Client.i: Client.cpp.i
+
+.PHONY : Client.i
+
+# target to preprocess a source file
+Client.cpp.i:
+	$(MAKE) -f CMakeFiles/ami_server.dir/build.make CMakeFiles/ami_server.dir/Client.cpp.i
+.PHONY : Client.cpp.i
+
+Client.s: Client.cpp.s
+
+.PHONY : Client.s
+
+# target to generate assembly for a file
+Client.cpp.s:
+	$(MAKE) -f CMakeFiles/ami_server.dir/build.make CMakeFiles/ami_server.dir/Client.cpp.s
+.PHONY : Client.cpp.s
+
 Server.o: Server.cpp.o
 
 .PHONY : Server.o
@@ -234,6 +288,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... install"
 	@echo "... list_install_components"
+	@echo "... BELMP.o"
+	@echo "... BELMP.i"
+	@echo "... BELMP.s"
+	@echo "... Client.o"
+	@echo "... Client.i"
+	@echo "... Client.s"
 	@echo "... Server.o"
 	@echo "... Server.i"
 	@echo "... Server.s"

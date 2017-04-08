@@ -8,6 +8,6 @@ set(AMI_Client_SRCS AMI_Client.cpp main.cpp)
 
 qt4_automoc(${AMI_Client_SRCS})
 add_executable(ami_client ${AMI_Client_SRCS})
-target_link_libraries(ami_client ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
+target_link_libraries(ami_client ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTNETWORK_LIBRARY})
 
 install(TARGETS ami_client RUNTIME DESTINATION bin)

@@ -6,6 +6,26 @@
 
 #IncludeRegexTransform: 
 
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp
+BELMP.hpp
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.hpp
+
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.hpp
+
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Client.cpp
+Client.hpp
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Client.hpp
+
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Client.hpp
+netinet/in.h
+-
+unistd.h
+-
+cstring
+-
+BELMP.hpp
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.hpp
+
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Server.cpp
 Server.hpp
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Server.hpp
@@ -27,6 +47,8 @@ iostream
 -
 cstring
 -
+Client.hpp
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Client.hpp
 
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/main.cpp
 iostream

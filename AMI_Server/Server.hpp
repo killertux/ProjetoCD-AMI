@@ -10,16 +10,17 @@
 #include <iostream>
 #include <cstring>
 
+#include "Client.hpp"
+
 #define BUFFSIZE 1024
 
 class Server {
 private:
 	int server_socket;
-	int *client_sockets;
+	Client **clients;
 	int port, max_clients;
 	int connected_clients;
 	sockaddr_in server_addr;
-	sockaddr_in *clients_addr;
 	fd_set readfds;
 	
 	void die(std::string error, int error_n);				//In case of error

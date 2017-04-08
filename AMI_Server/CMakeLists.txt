@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 project(ami_server)
 
-add_executable(ami_server main.cpp Server.cpp)
+add_executable(ami_server main.cpp Server.cpp Client.cpp BELMP.cpp)
 
 #target_link_libraries()
 
