@@ -1,0 +1,1 @@
+/usr/bin/c++   -g   CMakeFiles/ami_client.dir/AMI_Client.cpp.o CMakeFiles/ami_client.dir/main.cpp.o  -o ami_client -rdynamic -lQtCore -lQtGui 

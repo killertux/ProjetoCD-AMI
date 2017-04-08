@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Server.cpp
+Server.hpp
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Server.hpp
+
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Server.hpp
+sys/select.h
+-
+sys/types.h
+-
+netinet/in.h
+-
+unistd.h
+-
+arpa/inet.h
+-
+netdb.h
+-
+iostream
+-
+cstring
+-
+
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/main.cpp
+iostream
+-
+string
+-
+Server.hpp
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Server.hpp
+
