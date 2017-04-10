@@ -11,6 +11,12 @@ BELMP.hpp
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.hpp
 
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.hpp
+stddef.h
+-
+cstring
+-
+iostream
+-
 
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Client.cpp
 Client.hpp
@@ -22,6 +28,8 @@ netinet/in.h
 unistd.h
 -
 cstring
+-
+string
 -
 BELMP.hpp
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.hpp
@@ -49,6 +57,8 @@ cstring
 -
 Client.hpp
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/Client.hpp
+BELMP.hpp
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.hpp
 
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/main.cpp
 iostream

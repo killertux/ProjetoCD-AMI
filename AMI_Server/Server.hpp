@@ -11,6 +11,7 @@
 #include <cstring>
 
 #include "Client.hpp"
+#include "BELMP.hpp"
 
 #define BUFFSIZE 1024
 
@@ -24,8 +25,8 @@ private:
 	fd_set readfds;
 	
 	void die(std::string error, int error_n);				//In case of error
-	void broadcast(std::string message);					//Send message for everyone connected
-	void broadcast(std::string message,int exception);		//Send message for everyone connected with exception of 'exception'
+	void broadcast(_belmp_packet *packet);					//Send message for everyone connected
+	void broadcast(_belmp_packet *packet,int exception);		//Send message for everyone connected with exception of 'exception'
 	
 public:
 	Server(int port, int max_clients);

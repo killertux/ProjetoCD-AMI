@@ -1,21 +1,25 @@
 #ifndef AMI_BELMP_HPP
 #define AMI_BELMP_HPP
 
+#include <stddef.h>
+#include <cstring>
+#include <iostream>		//Don't forget to remove this
+
 #define STATUS_DISCONNECTED 0
 #define STATUS_CONNECTION_REQUESTED 1
 #define STATUS_CONNECTED 2
 
-#define F_REQUEST_CONNECTION 0x0
-#define F_CONNECTION_ACCEPTED 0x1
-#define F_CONNECTION_REJECTED_M_CLIENTS 0x2
-#define F_CONNECTION_REJECTED_NICKNAME 0x3
-#define F_CONNECTION_REJECTED_UNKNOWN 0x4
-#define F_NEW_CLIENT 0x5
-#define F_NEW_MESSAGE 0x6
-#define F_ERROR_MESSAGE_SENDER 0x7
-#define F_ERROR_MESSAGE_RECIEVER 0x8
+#define F_REQUEST_CONNECTION 0x00
+#define F_CONNECTION_ACCEPTED 0x01
+#define F_CONNECTION_REJECTED_M_CLIENTS 0x02
+#define F_CONNECTION_REJECTED_NICKNAME 0x03
+#define F_CONNECTION_REJECTED_UNKNOWN 0x04
+#define F_NEW_CLIENT 0x05
+#define F_NEW_MESSAGE 0x06
+#define F_ERROR_MESSAGE_SENDER 0x07
+#define F_ERROR_MESSAGE_RECIEVER 0x08
 
-struct _belmp_header{
+struct _belmp_packet{
 	char identifier[5];
 	char function;
 	char data[250];
@@ -23,15 +27,24 @@ struct _belmp_header{
 
 class BELMP{
 private:
-	_belmp_header header;
 	int status;
+	bool client;
 	
+	static void setIdentifier(char identifier[5]);
 public:
-	BELMP();
+	BELMP(bool client);
 	~BELMP();
+	
+	static bool check_packet(void *data);
+	
+	static _belmp_packet *new_request_connection(char *nickname);
+	static _belmp_packet *new_connection_accepted(char id, char max_clients);
+	static _belmp_packet *new_connection_rejected(char reason);
+	static _belmp_packet *new_client(char id, char *nickname);
 	
 	//Gets and Sets
 	int getStatus(){return status;}
+	void setStatus(int status){this->status=status;}
 };
 
 #endif

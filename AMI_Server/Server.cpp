@@ -90,9 +90,6 @@ void Server::main_loop(){
 					if(this->clients[i]==NULL){
 						this->clients[i]=new Client(new_client_socket,&new_client_addr);
 						this->connected_clients++;
-						
-						//We sould probably inform everyone that this guy arrieved.
-						this->broadcast("A new user connected!",this->clients[i]->getClient_socket());
 						break;
 					}
 			}
@@ -108,9 +105,42 @@ void Server::main_loop(){
 						delete this->clients[i];
 						this->clients[i]=NULL;
 						this->connected_clients--;
+					} else {
+						//Process the message
+						if(BELMP::check_packet(buffer)){
+							_belmp_packet *packet=(_belmp_packet*)&buffer;
+							if(packet->function==F_REQUEST_CONNECTION && this->clients[i]->getStatus()==STATUS_DISCONNECTED){
+								//Someone is newbie. Let's check if his Nickname is valid.
+								bool valid=true;
+								for(int c=0;c<this->max_clients;c++)
+									if(this->clients[c]!=NULL && this->clients[c]->getNickname()==std::string(packet->data))
+										valid=false;
+								if(valid){
+									//Lets send the response
+									this->clients[i]->setNickname(packet->data);
+									_belmp_packet *packet = BELMP::new_connection_accepted(i,this->max_clients);
+									this->clients[i]->setStatus(STATUS_CONNECTED);
+									std::cout << write(this->clients[i]->getClient_socket(),packet,256) << std::endl;
+									std::cout << "We accepted the new client with the nickname " << this->clients[i]->getNickname() <<std::endl;
+									delete(packet);
+									//We also should inform everyone else
+									packet = BELMP::new_client(i,(char *)this->clients[i]->getNickname().c_str());
+									this->broadcast(packet,i);
+									//We should send to him all the connected clients;
+								} else {
+									//Oh no. He nickname is already in use
+									_belmp_packet *packet = BELMP::new_connection_rejected(F_CONNECTION_REJECTED_NICKNAME);
+									write(this->clients[i]->getClient_socket(),packet,256);
+									delete(packet);
+									FD_CLR(this->clients[i]->getClient_socket(),&this->readfds);
+									delete this->clients[i];
+								}
+							}
+							
+						} else {
+							std::cout << "Client sent an unreadable message!\n";
+						}
 					}
-				} else {
-					//Process the message
 				}
 		}
 	}
@@ -123,15 +153,15 @@ void Server::die(std::string error, int error_n){
 }
 
 
-void Server::broadcast(std::string message){
+void Server::broadcast(_belmp_packet *packet){
 	for(int i=0;i<this->max_clients;i++)
 		if(this->clients[i]!=NULL)
-			send(this->clients[i]->getClient_socket(),message.c_str(),message.size(),0);
+			write(this->clients[i]->getClient_socket(),packet,256);
 }
 
-void Server::broadcast(std::string message, int exception){
+void Server::broadcast(_belmp_packet *packet, int exception){
 	for(int i=0;i<this->max_clients;i++)
 		if(this->clients[i]!=NULL && this->clients[i]->getClient_socket()!=exception)
-			send(this->clients[i]->getClient_socket(),message.c_str(),message.size(),0);
+			write(this->clients[i]->getClient_socket(),packet,256);
 }
 
