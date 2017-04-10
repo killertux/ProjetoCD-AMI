@@ -194,6 +194,33 @@ AMI_Client.cpp.s:
 	$(MAKE) -f CMakeFiles/ami_client.dir/build.make CMakeFiles/ami_client.dir/AMI_Client.cpp.s
 .PHONY : AMI_Client.cpp.s
 
+home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.o: home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.o
+
+.PHONY : home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.o
+
+# target to build an object file
+home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.o:
+	$(MAKE) -f CMakeFiles/ami_client.dir/build.make CMakeFiles/ami_client.dir/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.o
+.PHONY : home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.o
+
+home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.i: home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.i
+
+.PHONY : home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.i
+
+# target to preprocess a source file
+home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.i:
+	$(MAKE) -f CMakeFiles/ami_client.dir/build.make CMakeFiles/ami_client.dir/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.i
+.PHONY : home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.i
+
+home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.s: home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.s
+
+.PHONY : home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.s
+
+# target to generate assembly for a file
+home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.s:
+	$(MAKE) -f CMakeFiles/ami_client.dir/build.make CMakeFiles/ami_client.dir/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.s
+.PHONY : home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -237,6 +264,9 @@ help:
 	@echo "... AMI_Client.o"
 	@echo "... AMI_Client.i"
 	@echo "... AMI_Client.s"
+	@echo "... home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.o"
+	@echo "... home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.i"
+	@echo "... home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

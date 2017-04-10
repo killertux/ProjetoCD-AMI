@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "AMI_Client.moc"
   "CMakeFiles/ami_client.dir/AMI_Client.cpp.o"
   "CMakeFiles/ami_client.dir/main.cpp.o"
+  "CMakeFiles/ami_client.dir/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.o"
   "ami_client.pdb"
   "ami_client"
 )

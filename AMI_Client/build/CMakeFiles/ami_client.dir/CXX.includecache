@@ -17,6 +17,8 @@ iostream
 -
 MainWindows.hpp
 ../MainWindows.hpp
+../AMI_Server/BELMP.hpp
+AMI_Server/BELMP.hpp
 
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/AMI_Client.cpp
 AMI_Client.h
@@ -35,6 +37,8 @@ iostream
 -
 MainWindows.hpp
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/MainWindows.hpp
+../AMI_Server/BELMP.hpp
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.hpp
 
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/MainWindows.hpp
 QtCore/QVariant
@@ -69,6 +73,18 @@ QApplication
 -
 AMI_Client.h
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/AMI_Client.h
+
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp
+BELMP.hpp
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.hpp
+
+/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.hpp
+stddef.h
+-
+cstring
+-
+iostream
+-
 
 /usr/include/qt4/Qt3Support/q3cstring.h
 QtCore/qbytearray.h

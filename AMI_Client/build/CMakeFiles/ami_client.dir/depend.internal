@@ -6,6 +6,7 @@ CMakeFiles/ami_client.dir/AMI_Client.cpp.o
  /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/AMI_Client.cpp
  /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/AMI_Client.h
  /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/MainWindows.hpp
+ /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.hpp
  /usr/include/qt4/Qt3Support/q3cstring.h
  /usr/include/qt4/Qt3Support/q3valuelist.h
  /usr/include/qt4/QtCore/QPoint
@@ -176,10 +177,14 @@ CMakeFiles/ami_client.dir/AMI_Client.cpp.o
  /usr/include/qt4/QtNetwork/qabstractsocket.h
  /usr/include/qt4/QtNetwork/qtcpsocket.h
  AMI_Client.moc
+CMakeFiles/ami_client.dir/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.o
+ /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp
+ /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.hpp
 CMakeFiles/ami_client.dir/main.cpp.o
  /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/AMI_Client.h
  /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/MainWindows.hpp
  /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/main.cpp
+ /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.hpp
  /usr/include/qt4/Qt3Support/q3cstring.h
  /usr/include/qt4/Qt3Support/q3valuelist.h
  /usr/include/qt4/QtCore/QPoint
