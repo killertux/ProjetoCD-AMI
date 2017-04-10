@@ -36,16 +36,21 @@ Data:
 1 Byte with the ID
 249 Bytes with the nickname
 
-0x6		--		New message
+0x6		--		Client disconnected
+Data:
+1 Byte with the ID
+249 bytes null
+
+0x7		--		New message
 Data:
 1 Byte with the sender ID
 1 Byte with the receiver ID. ID 0xFF reserved for broadcasting
 248 Bytes with the message
 
-0x7		--		Error sending message. Reason = "Invalid sender ID"
+0x8		--		Error sending message. Reason = "Invalid sender ID"
 Data
 250 Bytes null
 
-0x8		--		Error sending message. Reason = "Invalid receiver ID"
+0x9		--		Error sending message. Reason = "Invalid receiver ID"
 Data
 250 Bytes null
