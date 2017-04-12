@@ -100,7 +100,15 @@ void Server::main_loop(){
 					char buffer[BUFFSIZE];
 					if(read(this->clients[i]->getClient_socket(),buffer,BUFFSIZE)==0){
 						//Some traitor disconnected
+						_belmp_packet *packet;
 						std::cout << "A client from " << inet_ntoa(this->clients[i]->getClient_addr()->sin_addr) << " disconnected\n";
+						//Let's denouce him to everyone else!!
+						packet = BELMP::client_disconnect(i);
+						for(int c=0;c<this->max_clients;c++)
+							if(this->clients[c]!=NULL && this->clients[c] != this->clients[i])
+								write(this->clients[c]->getClient_socket(),packet,256);
+						delete packet;
+						
 						FD_CLR(this->clients[i]->getClient_socket(),&this->readfds);
 						delete this->clients[i];
 						this->clients[i]=NULL;
@@ -120,20 +128,51 @@ void Server::main_loop(){
 									this->clients[i]->setNickname(packet->data);
 									_belmp_packet *packet = BELMP::new_connection_accepted(i,this->max_clients);
 									this->clients[i]->setStatus(STATUS_CONNECTED);
-									std::cout << write(this->clients[i]->getClient_socket(),packet,256) << std::endl;
+									write(this->clients[i]->getClient_socket(),packet,256);
 									std::cout << "We accepted the new client with the nickname " << this->clients[i]->getNickname() <<std::endl;
 									delete(packet);
 									//We also should inform everyone else
 									packet = BELMP::new_client(i,(char *)this->clients[i]->getNickname().c_str());
-									this->broadcast(packet,i);
+									this->broadcast(packet,this->clients[i]->getClient_socket());
+									delete packet;
 									//We should send to him all the connected clients;
+									for(int c=0;c<this->max_clients;c++)
+										if(this->clients[c]!=NULL && this->clients[c]!=this->clients[i]){
+											packet = BELMP::new_client(c,(char *)this->clients[c]->getNickname().c_str());
+											write(this->clients[i]->getClient_socket(),packet,256);
+											delete packet;
+										}
 								} else {
-									//Oh no. He nickname is already in use
+									//Oh no. His nickname is already in use
 									_belmp_packet *packet = BELMP::new_connection_rejected(F_CONNECTION_REJECTED_NICKNAME);
 									write(this->clients[i]->getClient_socket(),packet,256);
 									delete(packet);
 									FD_CLR(this->clients[i]->getClient_socket(),&this->readfds);
 									delete this->clients[i];
+								}
+							} else if(packet->function==F_NEW_MESSAGE && this->clients[i]->getStatus()==STATUS_CONNECTED){
+								if(packet->data[0]!=i){
+									//He is an impostor!!!!!
+									std::cout << "Client " << inet_ntoa(this->clients[i]->getClient_addr()->sin_addr) << " tried to send a message from a differente client!\n";
+									_belmp_packet *packet = BELMP::new_error_message(F_ERROR_MESSAGE_SENDER);
+									write(this->clients[i]->getClient_socket(),packet,256);
+									delete(packet);
+								} else{
+									if(packet->data[1]!=(char)R_BROADCAST){
+										//Its a private message
+										if(this->clients[packet->data[1]]==NULL){
+											//He is trying to send the message to a ghost :O
+											_belmp_packet *packet = BELMP::new_error_message(F_ERROR_MESSAGE_RECIEVER);
+											write(this->clients[i]->getClient_socket(),packet,256);
+											delete(packet);
+										} else {
+											//Let's send this message;
+											write(this->clients[packet->data[1]]->getClient_socket(),packet,256);
+										}
+									} else {
+										//He want's to broadcast
+										this->broadcast(packet, this->clients[i]->getClient_socket());
+									}
 								}
 							}
 							
