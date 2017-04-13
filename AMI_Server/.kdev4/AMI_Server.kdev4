@@ -23,7 +23,7 @@ Name=Novo lançador Binário compilado
 Type=Native Application
 
 [Launch][Launch Configuration 0][Data]
-Arguments=4552 15
+Arguments=4551 15
 Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
 Dependency Action=Nothing
 EnvironmentGroup=

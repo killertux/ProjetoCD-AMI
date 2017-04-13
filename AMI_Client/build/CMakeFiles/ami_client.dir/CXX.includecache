@@ -19,6 +19,8 @@ MainWindows.hpp
 ../MainWindows.hpp
 ../AMI_Server/BELMP.hpp
 AMI_Server/BELMP.hpp
+sstream
+-
 
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/AMI_Client.cpp
 AMI_Client.h
@@ -39,6 +41,8 @@ MainWindows.hpp
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/MainWindows.hpp
 ../AMI_Server/BELMP.hpp
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.hpp
+sstream
+-
 
 /home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/MainWindows.hpp
 QtCore/QVariant

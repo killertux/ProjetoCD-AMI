@@ -8,6 +8,8 @@
 #include <iostream>		//Remeber to remove this
 #include "MainWindows.hpp"
 #include "../AMI_Server/BELMP.hpp"
+#include <sstream>
+
 
 class AMI_Client : public QMainWindow
 {

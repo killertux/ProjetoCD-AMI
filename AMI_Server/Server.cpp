@@ -98,22 +98,27 @@ void Server::main_loop(){
 			for(int i=0;i<this->max_clients;i++)
 				if(this->clients[i]!=NULL && FD_ISSET(this->clients[i]->getClient_socket(),&this->readfds)){
 					char buffer[BUFFSIZE];
-					if(read(this->clients[i]->getClient_socket(),buffer,BUFFSIZE)==0){
-						//Some traitor disconnected
-						_belmp_packet *packet;
-						std::cout << "A client from " << inet_ntoa(this->clients[i]->getClient_addr()->sin_addr) << " disconnected\n";
-						//Let's denouce him to everyone else!!
-						packet = BELMP::client_disconnect(i);
-						for(int c=0;c<this->max_clients;c++)
-							if(this->clients[c]!=NULL && this->clients[c] != this->clients[i])
-								write(this->clients[c]->getClient_socket(),packet,256);
-						delete packet;
-						
-						FD_CLR(this->clients[i]->getClient_socket(),&this->readfds);
-						delete this->clients[i];
-						this->clients[i]=NULL;
-						this->connected_clients--;
-					} else {
+					int n=0;
+					while((n+=read(this->clients[i]->getClient_socket(),buffer+n,256))<256){
+						if(n==0){
+							//Some traitor disconnected
+							_belmp_packet *packet;
+							std::cout << "A client from " << inet_ntoa(this->clients[i]->getClient_addr()->sin_addr) << " disconnected\n";
+							//Let's denouce him to everyone else!!
+							packet = BELMP::client_disconnect(i);
+							for(int c=0;c<this->max_clients;c++)
+								if(this->clients[c]!=NULL && this->clients[c] != this->clients[i])
+									write(this->clients[c]->getClient_socket(),packet,256);
+							delete packet;
+							
+							FD_CLR(this->clients[i]->getClient_socket(),&this->readfds);
+							delete this->clients[i];
+							this->clients[i]=NULL;
+							this->connected_clients--;
+							break;
+						}
+					} 
+					if(n==256){
 						//Process the message
 						if(BELMP::check_packet(buffer)){
 							_belmp_packet *packet=(_belmp_packet*)&buffer;
@@ -137,8 +142,9 @@ void Server::main_loop(){
 									delete packet;
 									//We should send to him all the connected clients;
 									for(int c=0;c<this->max_clients;c++)
-										if(this->clients[c]!=NULL && this->clients[c]!=this->clients[i]){
+										if(this->clients[c]!=NULL && c!=i){
 											packet = BELMP::new_client(c,(char *)this->clients[c]->getNickname().c_str());
+											std::cout << this->clients[c]->getNickname() << std::endl;
 											write(this->clients[i]->getClient_socket(),packet,256);
 											delete packet;
 										}
@@ -149,6 +155,7 @@ void Server::main_loop(){
 									delete(packet);
 									FD_CLR(this->clients[i]->getClient_socket(),&this->readfds);
 									delete this->clients[i];
+									this->clients[i]=NULL;
 								}
 							} else if(packet->function==F_NEW_MESSAGE && this->clients[i]->getStatus()==STATUS_CONNECTED){
 								if(packet->data[0]!=i){

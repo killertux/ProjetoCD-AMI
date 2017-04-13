@@ -30,7 +30,7 @@ EnvironmentGroup=
 Executable=file:///home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Client/build/ami_client
 External Terminal=konsole --noclose --workdir %workdir -e %exe
 Project Target=AMI_Client,ami_client
-Use External Terminal=true
+Use External Terminal=false
 Working Directory=
 isExecutable=true
 
