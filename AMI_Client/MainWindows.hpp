@@ -141,14 +141,21 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
         labelMessageLog->setText(QApplication::translate("MainWindow", "Messages log:", 0, QApplication::UnicodeUTF8));
+        labelMessageLog->adjustSize();
         labelTitle->setText(QApplication::translate("MainWindow", "AMI_Client", 0, QApplication::UnicodeUTF8));
+        labelTitle->adjustSize();
         labelTypeMessage->setText(QApplication::translate("MainWindow", "Type message:", 0, QApplication::UnicodeUTF8));
+        labelTypeMessage->adjustSize();
         labelServerInfo->setText(QApplication::translate("MainWindow", "Server Info:", 0, QApplication::UnicodeUTF8));
+        labelServerInfo->adjustSize();
         labelIP->setText(QApplication::translate("MainWindow", "IP:", 0, QApplication::UnicodeUTF8));
+        labelIP->adjustSize();
         labelPort->setText(QApplication::translate("MainWindow", "Port:", 0, QApplication::UnicodeUTF8));
+        labelPort->adjustSize();
         pushButtonConnect->setText(QApplication::translate("MainWindow", "Connect", 0, QApplication::UnicodeUTF8));
         pushButtonDisconnect->setText(QApplication::translate("MainWindow", "Disconnect", 0, QApplication::UnicodeUTF8));
         labelNickname->setText(QApplication::translate("MainWindow", "Nickname:", 0, QApplication::UnicodeUTF8));
+        labelNickname->adjustSize();
     } // retranslateUi
 
 };
