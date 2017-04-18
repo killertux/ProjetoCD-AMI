@@ -1,1 +1,0 @@
-/usr/bin/c++   -g   CMakeFiles/ami_client.dir/AMI_Client.cpp.o CMakeFiles/ami_client.dir/main.cpp.o CMakeFiles/ami_client.dir/home/clemente/Faculdade/CD/ProjetoCD-AMI/AMI_Server/BELMP.cpp.o  -o ami_client -rdynamic -lQtCore -lQtGui -lQtNetwork 
