@@ -6,7 +6,7 @@ AMI_Client::AMI_Client()
 	this->mainWindow = new Ui_MainWindow();
 	this->mainWindow->setupUi(this);
 	this->mainWindow->retranslateUi(this);
-	this->setWindowTitle("AMI Client");
+	this->mainWindow->textEditMessages->setDisabled(true);
 	
 	//Can't send text while we are not connected to a server
 	this->mainWindow->lineEditNewMessage->setDisabled(true);
@@ -27,6 +27,7 @@ AMI_Client::AMI_Client()
 	
 	//Alocating belmp;
 	this->belmp= new BELMP(true);
+	this->ami=NULL;
 }
 
 AMI_Client::~AMI_Client(){
@@ -45,10 +46,10 @@ void AMI_Client::sendMessage(){
 		std::string message= data.erase(0,cmd.size()+1);
 		_belmp_packet *packet;
 		packet = BELMP::new_message(this->ourId,(char)R_BROADCAST,(char *)message.c_str());
-		this->client_socket->write((const char *)packet,256);
+		this->client_socket->write((const char *)this->ami->toAMI((char*)packet,PACKET_SIZE),PACKET_SIZE*2);
 		delete packet;
-		message= "Sent :"+message;
-		this->mainWindow->plainTextEditMessages->appendPlainText(message.c_str());
+		message= "Sent: "+message;
+		this->info(message.c_str());
 	} else if(cmd == "private"){
 		std::string person;
 		std::string message;
@@ -58,26 +59,27 @@ void AMI_Client::sendMessage(){
 			if(this->nicknames[i]==person){
 				_belmp_packet *packet;
 				packet = BELMP::new_message(this->ourId,(char)i,(char *)message.c_str());
-				this->client_socket->write((const char *)packet,256);
+				this->client_socket->write((const char *)this->ami->toAMI((char*)packet,PACKET_SIZE),PACKET_SIZE*2);
 				delete packet;
-				message= "Sent :"+message;
-				this->mainWindow->plainTextEditMessages->appendPlainText(message.c_str());
+				message= "Sent["+this->nicknames[i]+"]: "+message;
+				this->info(message.c_str());
 				return;
 			}
-		this->mainWindow->plainTextEditMessages->appendPlainText("User not found!");
+		this->warning("User not found!");
 		
 	} else if(cmd == "online"){
+		this->info("Online users:");
 		for(int i=0;i<this->server_max_clients;i++)
 			if(this->nicknames[i]!="")
-				this->mainWindow->plainTextEditMessages->appendPlainText(this->nicknames[i].c_str());
+				this->info(this->nicknames[i].c_str());
 	
 	} else if(cmd == "help"){
-		this->mainWindow->plainTextEditMessages->appendPlainText("Commands :");
-		this->mainWindow->plainTextEditMessages->appendPlainText("send [message]  -  Broadcast the message");
-		this->mainWindow->plainTextEditMessages->appendPlainText("private [user] [message]  -  Send a private message");
-		this->mainWindow->plainTextEditMessages->appendPlainText("online  -  Show connected users");
+		this->info("Commands :");
+		this->info("send [message]  -  Broadcast the message");
+		this->info("private [user] [message]  -  Send a private message");
+		this->info("online  -  Show connected users");
 	} else 
-			this->mainWindow->plainTextEditMessages->appendPlainText(QString(cmd.c_str())+ " not a command!");
+			this->warning(QString(cmd.c_str())+ " not a command!");
 }
 
 void AMI_Client::connectToServer(){
@@ -93,10 +95,13 @@ void AMI_Client::connectToServer(){
 		_belmp_packet *packet;
 		std::string nickname = this->mainWindow->lineEditNickname->text().toLocal8Bit().data();
 		std::replace(nickname.begin(),nickname.end(),' ','_');	//No space alowed in the nickname
+		if(this->ami!=NULL)
+			delete this->ami;
+		this->ami= new AMI;
 		this->mainWindow->pushButtonDisconnect->setEnabled(true);
 		this->ourNickname = this->mainWindow->lineEditNickname->text().toUtf8().constData();
 		packet = BELMP::new_request_connection((char*)nickname.c_str());
-		this->client_socket->write((const char*)packet,256);
+		this->client_socket->write((const char*)this->ami->toAMI((char*)packet,PACKET_SIZE),PACKET_SIZE*2);
 		this->belmp->setStatus(STATUS_CONNECTION_REQUESTED);
 		delete packet;
 	}
@@ -110,17 +115,17 @@ void AMI_Client::disconnectFromServer(){
 	this->mainWindow->lineEditPort->setEnabled(true);
 	this->mainWindow->lineEditNickname->setEnabled(true);
 	this->mainWindow->lineEditNewMessage->setEnabled(false);
-	this->mainWindow->plainTextEditMessages->appendPlainText("We disconnected from the server");
+	this->info("We disconnected from the server");
 	this->mainWindow->lineEditNewMessage->setText("Not connected to a server!\n");
 	this->belmp->setStatus(STATUS_DISCONNECTED);
 }
 
 void AMI_Client::messageReciv(){
-	while(this->client_socket->bytesAvailable() >= 256){
-		QByteArray byteArray = this->client_socket->read(256);
+	while(this->client_socket->bytesAvailable() >= PACKET_SIZE*2){
+		QByteArray byteArray = this->client_socket->read(PACKET_SIZE*2);
 		char *buffer = byteArray.data();
-		_belmp_packet *packet=(_belmp_packet *)buffer;
-		if(!BELMP::check_packet(buffer))
+		_belmp_packet *packet=(_belmp_packet *)this->ami->fromAMI(buffer,PACKET_SIZE*2);
+		if(!BELMP::check_packet(packet))
 			continue;
 		
 		if(belmp->getStatus()==STATUS_CONNECTION_REQUESTED){
@@ -136,17 +141,17 @@ void AMI_Client::messageReciv(){
 						this->nicknames[i]="";
 					else
 						this->nicknames[i]=this->ourNickname;
-				this->mainWindow->plainTextEditMessages->appendPlainText("We are connected with the ID: "+QString().number(unsigned(this->ourId)));
+				this->info("We are connected with the ID: "+QString().number(unsigned(this->ourId)));
 				this->mainWindow->lineEditNewMessage->setEnabled(true);
 				this->mainWindow->lineEditNewMessage->setText("");
 				this->belmp->setStatus(STATUS_CONNECTED);
 			} else {
 				if(packet->function == F_CONNECTION_REJECTED_M_CLIENTS)
-					this->mainWindow->plainTextEditMessages->appendPlainText("Server is full!");
+					this->warning("Server is full!");
 				else if(packet->function == F_CONNECTION_REJECTED_NICKNAME)
-					this->mainWindow->plainTextEditMessages->appendPlainText("Nickname already in use!");
+					this->warning("Nickname already in use!");
 				else if(packet->function == F_CONNECTION_REJECTED_NICKNAME)
-					this->mainWindow->plainTextEditMessages->appendPlainText("Connection refused with a unknown error!");
+					this->warning("Connection refused with a unknown error!");
 				this->disconnectFromServer();
 			}
 		} else if(belmp->getStatus() == STATUS_CONNECTED){
@@ -156,27 +161,29 @@ void AMI_Client::messageReciv(){
 				char buffer[249];
 				std::memcpy(buffer,packet->data+1,249);
 				this->nicknames[id]=buffer;
-				this->mainWindow->plainTextEditMessages->appendPlainText("New user connected with the nickname: "+QString(this->nicknames[id].c_str()));
+				this->info("New user connected with the nickname: "+QString(this->nicknames[id].c_str()));
 			} else if(packet->function == F_CLIENT_DISCONNECT){
-				//That TRAITOR!!! Kill him!!!
+				//That TRAITOR!!! Kill him!!! He is dead to us
 				char id=packet->data[0];
-				this->mainWindow->plainTextEditMessages->appendPlainText("The user "+QString(this->nicknames[id].c_str())+ " disconnected!");
+				this->info("The user "+QString(this->nicknames[id].c_str())+ " disconnected!");
 				this->nicknames[id]="";
 			} else if(packet->function == F_ERROR_MESSAGE_RECIEVER){
 				//My friend is dead :'(
-				this->mainWindow->plainTextEditMessages->appendPlainText("We tried to contact a ghost!");
+				this->warning("We tried to contact a ghost!");
 			} else if(packet->function == F_ERROR_MESSAGE_SENDER){
 				//Ops. I was caught!!
-				this->mainWindow->plainTextEditMessages->appendPlainText("Invalid sender ID");
+				this->warning("Invalid sender ID");
 			} else if(packet->function == F_NEW_MESSAGE){
 				std::string message = packet->data+2;
 				char from = packet->data[0];
 				char to = packet->data[1];
-				if(to == (char)R_BROADCAST)
-					message = this->nicknames[from] + std::string(" [Broadcast]:") + message;
-				else
-					message = this->nicknames[from] + std::string(" :") + message;
-				this->mainWindow->plainTextEditMessages->appendPlainText(message.c_str());
+				if(to == (char)R_BROADCAST){
+					message = this->nicknames[from] + std::string(" [Broadcast]: ") + message;
+					this->message(message.c_str());
+				} else {
+					message = this->nicknames[from] + std::string(": ") + message;
+					this->privateMessage(message.c_str());
+				}
 			}
 		}
 	}
@@ -185,16 +192,16 @@ void AMI_Client::messageReciv(){
 void AMI_Client::showErrors(QAbstractSocket::SocketError socketError){
 	switch(socketError){
 		case QAbstractSocket::RemoteHostClosedError:
-			this->mainWindow->plainTextEditMessages->appendPlainText("Connection closed by the host!");
+			this->warning("Connection closed by the host!");
 			break;
 		case QAbstractSocket::ConnectionRefusedError:
-			this->mainWindow->plainTextEditMessages->appendPlainText("Connection refused!");
+			this->warning("Connection refused!");
 			break;
 		case QAbstractSocket::HostNotFoundError:
-			this->mainWindow->plainTextEditMessages->appendPlainText("Host not found!");
+			this->warning("Host not found!");
 			break;
 		default:
-			this->mainWindow->plainTextEditMessages->appendPlainText("Some unknown connecton error!");
+			this->warning("Some unknown connecton error!");
 	}
 	this->mainWindow->pushButtonConnect->setEnabled(true);
 	this->mainWindow->pushButtonDisconnect->setEnabled(false);
@@ -206,6 +213,25 @@ void AMI_Client::showErrors(QAbstractSocket::SocketError socketError){
 	this->belmp->setStatus(STATUS_DISCONNECTED);
 }
 
+void AMI_Client::info(QString text){
+	this->mainWindow->textEditMessages->setTextColor(QColor(100,100,100));
+	this->mainWindow->textEditMessages->append(text);
+	this->mainWindow->textEditMessages->setTextColor(QColor(0,0,0));
+}
+void AMI_Client::warning(QString text){
+	this->mainWindow->textEditMessages->setTextColor(QColor(177,0,0));
+	this->mainWindow->textEditMessages->append(text);
+	this->mainWindow->textEditMessages->setTextColor(QColor(0,0,0));
+}
 
+void AMI_Client::message(QString text){
+	this->mainWindow->textEditMessages->append(text);
+}
+
+void AMI_Client::privateMessage(QString text){
+	this->mainWindow->textEditMessages->setTextColor(QColor(0,0,120));
+	this->mainWindow->textEditMessages->append(text);
+	this->mainWindow->textEditMessages->setTextColor(QColor(0,0,0));
+}
 
 #include "AMI_Client.moc"

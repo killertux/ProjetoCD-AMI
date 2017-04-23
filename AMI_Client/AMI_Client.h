@@ -8,6 +8,7 @@
 #include <iostream>		//Remeber to remove this
 #include "MainWindows.hpp"
 #include "../AMI_Server/BELMP.hpp"
+#include "../AMI_Server/AMI.hpp"
 #include <sstream>
 
 
@@ -18,11 +19,16 @@ private:
     Ui_MainWindow *mainWindow;
 	QTcpSocket *client_socket;
 	BELMP *belmp;
+	AMI *ami;
 
 	char ourId;
 	std::string ourNickname;
 	char server_max_clients;
 	std::string *nicknames;
+	void warning(QString text);
+	void info(QString text);
+	void message(QString text);
+	void privateMessage(QString text);
 public:
     AMI_Client();
     virtual ~AMI_Client();
