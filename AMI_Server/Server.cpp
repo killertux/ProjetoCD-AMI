@@ -97,9 +97,9 @@ void Server::main_loop(){
 			//Then, it's must be a message from on of the clients
 			for(int i=0;i<this->max_clients;i++)
 				if(this->clients[i]!=NULL && FD_ISSET(this->clients[i]->getClient_socket(),&this->readfds)){
-					char buffer[BUFFSIZE];
+					char buffer[PACKET_SIZE*2];
 					int n=0;
-					while((n+=read(this->clients[i]->getClient_socket(),buffer+n,256))<256){
+					while((n+=read(this->clients[i]->getClient_socket(),buffer+n,PACKET_SIZE*2))<PACKET_SIZE*2){
 						if(n==0){
 							//Some traitor disconnected
 							_belmp_packet *packet;
@@ -108,7 +108,7 @@ void Server::main_loop(){
 							packet = BELMP::client_disconnect(i);
 							for(int c=0;c<this->max_clients;c++)
 								if(this->clients[c]!=NULL && this->clients[c] != this->clients[i])
-									write(this->clients[c]->getClient_socket(),packet,256);
+									write(this->clients[c]->getClient_socket(),this->clients[c]->getAmi()->toAMI((char*)packet,PACKET_SIZE),PACKET_SIZE*2);
 							delete packet;
 							
 							FD_CLR(this->clients[i]->getClient_socket(),&this->readfds);
@@ -118,22 +118,22 @@ void Server::main_loop(){
 							break;
 						}
 					} 
-					if(n==256){
+					if(n==PACKET_SIZE*2){
 						//Process the message
-						if(BELMP::check_packet(buffer)){
-							_belmp_packet *packet=(_belmp_packet*)&buffer;
-							if(packet->function==F_REQUEST_CONNECTION && this->clients[i]->getStatus()==STATUS_DISCONNECTED){
+						_belmp_packet *r_packet=(_belmp_packet*)this->clients[i]->getAmi()->fromAMI(buffer,PACKET_SIZE*2);
+						if(BELMP::check_packet(r_packet)){
+							if(r_packet->function==F_REQUEST_CONNECTION && this->clients[i]->getStatus()==STATUS_DISCONNECTED){
 								//Someone is newbie. Let's check if his Nickname is valid.
 								bool valid=true;
 								for(int c=0;c<this->max_clients;c++)
-									if(this->clients[c]!=NULL && this->clients[c]->getNickname()==std::string(packet->data))
+									if(this->clients[c]!=NULL && this->clients[c]->getNickname()==std::string(r_packet->data))
 										valid=false;
 								if(valid){
 									//Lets send the response
-									this->clients[i]->setNickname(packet->data);
+									this->clients[i]->setNickname(r_packet->data);
 									_belmp_packet *packet = BELMP::new_connection_accepted(i,this->max_clients);
 									this->clients[i]->setStatus(STATUS_CONNECTED);
-									write(this->clients[i]->getClient_socket(),packet,256);
+									write(this->clients[i]->getClient_socket(),this->clients[i]->getAmi()->toAMI((char*)packet,PACKET_SIZE),PACKET_SIZE*2);
 									std::cout << "We accepted the new client with the nickname " << this->clients[i]->getNickname() <<std::endl;
 									delete(packet);
 									//We also should inform everyone else
@@ -144,45 +144,43 @@ void Server::main_loop(){
 									for(int c=0;c<this->max_clients;c++)
 										if(this->clients[c]!=NULL && c!=i){
 											packet = BELMP::new_client(c,(char *)this->clients[c]->getNickname().c_str());
-											std::cout << this->clients[c]->getNickname() << std::endl;
-											write(this->clients[i]->getClient_socket(),packet,256);
+											write(this->clients[i]->getClient_socket(),this->clients[i]->getAmi()->toAMI((char*)packet,PACKET_SIZE),PACKET_SIZE*2);
 											delete packet;
 										}
 								} else {
 									//Oh no. His nickname is already in use
 									_belmp_packet *packet = BELMP::new_connection_rejected(F_CONNECTION_REJECTED_NICKNAME);
-									write(this->clients[i]->getClient_socket(),packet,256);
+									write(this->clients[i]->getClient_socket(),this->clients[i]->getAmi()->toAMI((char*)packet,PACKET_SIZE),PACKET_SIZE*2);
 									delete(packet);
 									FD_CLR(this->clients[i]->getClient_socket(),&this->readfds);
 									delete this->clients[i];
 									this->clients[i]=NULL;
 								}
-							} else if(packet->function==F_NEW_MESSAGE && this->clients[i]->getStatus()==STATUS_CONNECTED){
-								if(packet->data[0]!=i){
+							} else if(r_packet->function==F_NEW_MESSAGE && this->clients[i]->getStatus()==STATUS_CONNECTED){
+								if(r_packet->data[0]!=i){
 									//He is an impostor!!!!!
 									std::cout << "Client " << inet_ntoa(this->clients[i]->getClient_addr()->sin_addr) << " tried to send a message from a differente client!\n";
 									_belmp_packet *packet = BELMP::new_error_message(F_ERROR_MESSAGE_SENDER);
-									write(this->clients[i]->getClient_socket(),packet,256);
+									write(this->clients[i]->getClient_socket(),this->clients[i]->getAmi()->toAMI((char*)packet,PACKET_SIZE),PACKET_SIZE*2);
 									delete(packet);
 								} else{
-									if(packet->data[1]!=(char)R_BROADCAST){
+									if(r_packet->data[1]!=(char)R_BROADCAST){
 										//Its a private message
-										if(this->clients[packet->data[1]]==NULL){
+										if(this->clients[r_packet->data[1]]==NULL){
 											//He is trying to send the message to a ghost :O
 											_belmp_packet *packet = BELMP::new_error_message(F_ERROR_MESSAGE_RECIEVER);
-											write(this->clients[i]->getClient_socket(),packet,256);
+											write(this->clients[i]->getClient_socket(),this->clients[i]->getAmi()->toAMI((char*)packet,PACKET_SIZE),PACKET_SIZE*2);
 											delete(packet);
 										} else {
 											//Let's send this message;
-											write(this->clients[packet->data[1]]->getClient_socket(),packet,256);
+											write(this->clients[r_packet->data[1]]->getClient_socket(),this->clients[r_packet->data[1]]->getAmi()->toAMI((char*)r_packet,PACKET_SIZE),PACKET_SIZE*2);
 										}
 									} else {
 										//He want's to broadcast
-										this->broadcast(packet, this->clients[i]->getClient_socket());
+										this->broadcast(r_packet, this->clients[i]->getClient_socket());
 									}
 								}
 							}
-							
 						} else {
 							std::cout << "Client sent an unreadable message!\n";
 						}
@@ -202,12 +200,12 @@ void Server::die(std::string error, int error_n){
 void Server::broadcast(_belmp_packet *packet){
 	for(int i=0;i<this->max_clients;i++)
 		if(this->clients[i]!=NULL)
-			write(this->clients[i]->getClient_socket(),packet,256);
+			write(this->clients[i]->getClient_socket(),this->clients[i]->getAmi()->toAMI((char*)packet,PACKET_SIZE),PACKET_SIZE*2);
 }
 
 void Server::broadcast(_belmp_packet *packet, int exception){
 	for(int i=0;i<this->max_clients;i++)
 		if(this->clients[i]!=NULL && this->clients[i]->getClient_socket()!=exception)
-			write(this->clients[i]->getClient_socket(),packet,256);
+			write(this->clients[i]->getClient_socket(),this->clients[i]->getAmi()->toAMI((char*)packet,PACKET_SIZE),PACKET_SIZE*2);
 }
 

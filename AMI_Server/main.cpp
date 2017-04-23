@@ -2,6 +2,8 @@
 #include <string>
 #include "Server.hpp"
 
+#include "AMI.hpp"
+
 int main(int argc, char **argv) {
 	Server *server;
 	std::cout << "Server using the code line AMI.\nDeveloped by Bruno Clemente, Everton Santos Barreto Junior e Lucas Campos Tavano \n";

@@ -5,6 +5,8 @@
 #include <cstring>
 #include <iostream>		//Don't forget to remove this
 
+#define PACKET_SIZE 256
+
 #define STATUS_DISCONNECTED 0
 #define STATUS_CONNECTION_REQUESTED 1
 #define STATUS_CONNECTED 2
@@ -38,7 +40,7 @@ public:
 	BELMP(bool client);
 	~BELMP();
 	
-	static bool check_packet(void *data);
+	static bool check_packet(_belmp_packet *packet);
 	
 	static _belmp_packet *new_request_connection(char *nickname);
 	static _belmp_packet *new_connection_accepted(char id, char max_clients);

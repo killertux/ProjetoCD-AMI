@@ -7,6 +7,7 @@
 #include <string>
 
 #include "BELMP.hpp"
+#include "AMI.hpp"
 
 class Client{
 private:
@@ -14,6 +15,7 @@ private:
 	std::string nickname;
 	sockaddr_in client_addr;
 	BELMP *belmp;
+	AMI *ami;
 public:
 	Client(int client_socket,sockaddr_in *client_addr);
 	~Client();
@@ -25,6 +27,7 @@ public:
 	void setNickname(std::string nickname){this->nickname=nickname;}
 	int getStatus(){return this->belmp->getStatus();}
 	void setStatus(int status){this->belmp->setStatus(status);}
+	AMI *getAmi(){return ami;}
 };
 
 #endif

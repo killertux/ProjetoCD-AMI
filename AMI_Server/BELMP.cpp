@@ -37,12 +37,13 @@ _belmp_packet *BELMP::client_disconnect(char id){
 	BELMP::setIdentifier(packet->identifier);
 	packet->function=F_CLIENT_DISCONNECT;
 	packet->data[0]=id;
-	std::memset(packet->data+1,0,250);
+	std::memset(packet->data+1,0,249);
 	return packet;
 }
 
-bool BELMP::check_packet(void* data){
-	_belmp_packet *packet=(_belmp_packet*)data;
+bool BELMP::check_packet(_belmp_packet *packet){
+	if(packet==NULL)
+		return false;
 	if(packet->identifier[0]=='B' && packet->identifier[1]=='E' && packet->identifier[2]=='L' && 
 		packet->identifier[3]=='M' && packet->identifier[4]=='P')
 		return true;
