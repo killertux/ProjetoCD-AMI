@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>447</width>
+    <width>556</width>
     <height>549</height>
    </rect>
   </property>
@@ -247,7 +247,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>447</width>
+     <width>556</width>
      <height>20</height>
     </rect>
    </property>
@@ -259,8 +259,8 @@
   <tabstop>lineEditNewMessage</tabstop>
   <tabstop>lineEditIP</tabstop>
   <tabstop>lineEditPort</tabstop>
-  <tabstop>pushButtonConnect</tabstop>
   <tabstop>lineEditNickname</tabstop>
+  <tabstop>pushButtonConnect</tabstop>
   <tabstop>pushButtonDisconnect</tabstop>
  </tabstops>
  <resources/>

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'Design.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.7
+** Created by: Qt User Interface Compiler version 4.8.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -58,7 +58,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(447, 549);
+        MainWindow->resize(556, 549);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         verticalLayout = new QVBoxLayout(centralwidget);
@@ -199,7 +199,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 447, 20));
+        menubar->setGeometry(QRect(0, 0, 556, 20));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -207,9 +207,9 @@ public:
         QWidget::setTabOrder(textEditMessages, lineEditNewMessage);
         QWidget::setTabOrder(lineEditNewMessage, lineEditIP);
         QWidget::setTabOrder(lineEditIP, lineEditPort);
-        QWidget::setTabOrder(lineEditPort, pushButtonConnect);
-        QWidget::setTabOrder(pushButtonConnect, lineEditNickname);
-        QWidget::setTabOrder(lineEditNickname, pushButtonDisconnect);
+        QWidget::setTabOrder(lineEditPort, lineEditNickname);
+        QWidget::setTabOrder(lineEditNickname, pushButtonConnect);
+        QWidget::setTabOrder(pushButtonConnect, pushButtonDisconnect);
 
         retranslateUi(MainWindow);
 
