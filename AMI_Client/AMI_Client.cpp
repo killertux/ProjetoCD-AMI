@@ -155,6 +155,7 @@ void AMI_Client::messageReciv(){
 				this->disconnectFromServer();
 			}
 		} else if(belmp->getStatus() == STATUS_CONNECTED){
+			QApplication::alert(this);
 			if(packet->function == F_NEW_CLIENT){
 				//We have company
 				char id=packet->data[0];
