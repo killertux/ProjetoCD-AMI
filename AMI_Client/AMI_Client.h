@@ -10,6 +10,7 @@
 #include "../AMI_Server/BELMP.hpp"
 #include "../AMI_Server/AMI.hpp"
 #include <sstream>
+#include "itoa.hpp"
 
 
 class AMI_Client : public QMainWindow
@@ -20,7 +21,8 @@ private:
 	QTcpSocket *client_socket;
 	BELMP *belmp;
 	AMI *ami;
-
+	
+	bool debug;
 	char ourId;
 	std::string ourNickname;
 	char server_max_clients;

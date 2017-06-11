@@ -6,7 +6,7 @@ AMI_Client::AMI_Client()
 	this->mainWindow = new Ui_MainWindow();
 	this->mainWindow->setupUi(this);
 	this->mainWindow->retranslateUi(this);
-	this->mainWindow->textEditMessages->setDisabled(true);
+	this->mainWindow->textEditMessages->setReadOnly(true);
 	
 	//Can't send text while we are not connected to a server
 	this->mainWindow->lineEditNewMessage->setDisabled(true);
@@ -28,6 +28,7 @@ AMI_Client::AMI_Client()
 	//Alocating belmp;
 	this->belmp= new BELMP(true);
 	this->ami=NULL;
+	this->debug=false;
 }
 
 AMI_Client::~AMI_Client(){
@@ -36,6 +37,8 @@ AMI_Client::~AMI_Client(){
 }
 
 void AMI_Client::sendMessage(){
+	std::string buffer;
+	char *ami_buffer;
 	std::string data = this->mainWindow->lineEditNewMessage->text().toUtf8().constData();
 	std::istringstream iss(data);
 	std::string cmd;
@@ -46,8 +49,43 @@ void AMI_Client::sendMessage(){
 		std::string message= data.erase(0,cmd.size()+1);
 		_belmp_packet *packet;
 		packet = BELMP::new_message(this->ourId,(char)R_BROADCAST,(char *)message.c_str());
-		this->client_socket->write((const char *)this->ami->toAMI((char*)packet,PACKET_SIZE),PACKET_SIZE*2);
+		ami_buffer = this->ami->toAMI((char*)packet,PACKET_SIZE);
+		this->client_socket->write(ami_buffer,PACKET_SIZE*2);
+		if(this->debug){
+			this->info("Debug message:");
+			this->info("Message ASCII:");
+			for(int i=0;i<message.size();i++)
+				buffer += std::string(" ") + message.c_str()[i]+" - "+itoa(((unsigned char *)message.c_str())[i],2);
+			this->info(buffer.c_str());
+			this->info("With BELMP:");
+			buffer = "Header: ";
+			for(int i=0;i<5;i++)
+				buffer += itoa(packet->identifier[i],2);
+			buffer += " Function: ";
+			buffer += itoa(packet->function,2);
+			buffer += " Data: ";
+			for(int i=0;i<250;i++)
+				buffer += itoa((unsigned char)packet->data[i],2);
+			this->info(buffer.c_str());
+			this->info("In voltages:");
+			buffer ="";
+			for(int i=0;i<PACKET_SIZE*2;i++)
+				buffer +=itoa(ami_buffer[i],2);
+			
+			std::string nBuffer;
+			nBuffer = "";
+			for(int i=0;i<buffer.size();i+=2){
+				if(buffer.c_str()[i] == '0' && buffer.c_str()[i+1] == '1')
+					nBuffer += "V- ";
+				else if(buffer.c_str()[i] == '1' && buffer.c_str()[i+1] == '0')
+					nBuffer += "V+ ";
+				else
+					nBuffer += "V0 ";
+			}
+			this->info(nBuffer.c_str());
+		}
 		delete packet;
+		delete ami_buffer;
 		message= "Sent: "+message;
 		this->info(message.c_str());
 	} else if(cmd == "private"){
@@ -59,8 +97,43 @@ void AMI_Client::sendMessage(){
 			if(this->nicknames[i]==person){
 				_belmp_packet *packet;
 				packet = BELMP::new_message(this->ourId,(char)i,(char *)message.c_str());
-				this->client_socket->write((const char *)this->ami->toAMI((char*)packet,PACKET_SIZE),PACKET_SIZE*2);
+				ami_buffer = this->ami->toAMI((char*)packet,PACKET_SIZE);
+				this->client_socket->write((const char *)ami_buffer,PACKET_SIZE*2);
+				if(this->debug){
+					this->info("Debug message:");
+					this->info("Message ASCII:");
+					for(int i=0;i<message.size();i++)
+						buffer += std::string(" ") + message.c_str()[i]+" - "+itoa(((unsigned char *)message.c_str())[i],2);
+					this->info(buffer.c_str());
+					this->info("With BELMP:");
+					buffer = "Header: ";
+					for(int i=0;i<5;i++)
+						buffer += itoa(packet->identifier[i],2);
+					buffer += " Function: ";
+					buffer += itoa(packet->function,2);
+					buffer += " Data: ";
+					for(int i=0;i<250;i++)
+						buffer += itoa((unsigned char)packet->data[i],2);
+					this->info(buffer.c_str());
+					this->info("In voltages:");
+					buffer ="";
+					for(int i=0;i<PACKET_SIZE*2;i++)
+						buffer +=itoa(ami_buffer[i],2);
+					
+					std::string nBuffer;
+					nBuffer = "";
+					for(int i=0;i<buffer.size();i+=2){
+						if(buffer.c_str()[i] == '0' && buffer.c_str()[i+1] == '1')
+							nBuffer += "V- ";
+						else if(buffer.c_str()[i] == '1' && buffer.c_str()[i+1] == '0')
+							nBuffer += "V+ ";
+						else
+							nBuffer += "V0 ";
+					}
+					this->info(nBuffer.c_str());
+				}
 				delete packet;
+				delete ami_buffer;
 				message= "Sent["+this->nicknames[i]+"]: "+message;
 				this->info(message.c_str());
 				return;
@@ -72,12 +145,15 @@ void AMI_Client::sendMessage(){
 		for(int i=0;i<this->server_max_clients;i++)
 			if(this->nicknames[i]!="")
 				this->info(this->nicknames[i].c_str());
-	
+	} else if(cmd == "debug"){
+		this->debug = !this->debug;
+		this->info((this->debug)?"Debug messages are on":"Debug messages are off");
 	} else if(cmd == "help"){
 		this->info("Commands :");
 		this->info("send [message]  -  Broadcast the message");
 		this->info("private [user] [message]  -  Send a private message");
 		this->info("online  -  Show connected users");
+		this->info("debug  -  Show debug messages");
 	} else 
 			this->warning(QString(cmd.c_str())+ " not a command!");
 }
@@ -123,8 +199,9 @@ void AMI_Client::disconnectFromServer(){
 void AMI_Client::messageReciv(){
 	while(this->client_socket->bytesAvailable() >= PACKET_SIZE*2){
 		QByteArray byteArray = this->client_socket->read(PACKET_SIZE*2);
-		char *buffer = byteArray.data();
-		_belmp_packet *packet=(_belmp_packet *)this->ami->fromAMI(buffer,PACKET_SIZE*2);
+		char *ami_buffer = byteArray.data();
+		std::string buffer;
+		_belmp_packet *packet=(_belmp_packet *)this->ami->fromAMI(ami_buffer,PACKET_SIZE*2);;
 		if(!BELMP::check_packet(packet))
 			continue;
 		
@@ -178,6 +255,43 @@ void AMI_Client::messageReciv(){
 				std::string message = packet->data+2;
 				char from = packet->data[0];
 				char to = packet->data[1];
+				if(this->debug){
+					this->info("Debug message:");
+					this->info("In voltages:");
+					buffer = "";
+					for(int i=0;i<PACKET_SIZE*2;i++)
+						buffer +=itoa((unsigned char)ami_buffer[i],2);
+					
+					std::string nBuffer;
+					nBuffer = "";
+					for(int i=0;i<buffer.size();i+=2){
+						if(buffer.c_str()[i] == '0' && buffer.c_str()[i+1] == '1')
+							nBuffer += "V- ";
+						else if(buffer.c_str()[i] == '1' && buffer.c_str()[i+1] == '0')
+							nBuffer += "V+ ";
+						else
+							nBuffer += "V0 ";
+					}
+					this->info(nBuffer.c_str());
+					
+					this->info("With BELMP:");
+					buffer = "Header: ";
+					for(int i=0;i<5;i++)
+						buffer += itoa(packet->identifier[i],2);
+					buffer += " Function: ";
+					buffer += itoa(packet->function,2);
+					buffer += " Data: ";
+					for(int i=0;i<250;i++)
+						buffer += itoa((unsigned char)packet->data[i],2);
+					this->info(buffer.c_str());
+					
+					this->info("Message ASCII:");
+					buffer ="";
+					for(int i=0;i<message.size();i++)
+						buffer += std::string(" ") + message.c_str()[i]+" - "+itoa(((unsigned char *)message.c_str())[i],2);
+					this->info(buffer.c_str());
+				}
+				
 				if(to == (char)R_BROADCAST){
 					message = this->nicknames[from] + std::string(" [Broadcast]: ") + message;
 					this->message(message.c_str());

@@ -13,6 +13,8 @@
 #include "Client.hpp"
 #include "BELMP.hpp"
 
+#define DEBUG true
+
 #define BUFFSIZE 1024
 
 class Server {
